@@ -28,7 +28,9 @@ class AceClient(ABC):
     """Turns 16 kHz mono PCM audio into a stream of engine-agnostic AnimationFrames."""
     @abstractmethod
     def stream(self, pcm_16k_mono: bytes, emotions: dict[str, float] | None = None
-               ) -> Iterator[AnimationFrame]: ...
+               ) -> Iterator[AnimationFrame]:
+        """`emotions`, if given, must be a subset of frame.EMOTIONS with values in [0,1];
+        concrete impls are responsible for honoring/validating it."""
 
 
 class RenderTarget(ABC):

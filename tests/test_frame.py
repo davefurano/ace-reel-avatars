@@ -18,6 +18,12 @@ def test_frame_rejects_unknown_blendshape():
     with pytest.raises(ValidationError):
         AnimationFrame(timestamp_s=0.0, blendshapes=bs, emotions={}, body_pose=None)
 
-def test_frame_clamps_out_of_range_weight():
+def test_frame_rejects_out_of_range_weight():
     with pytest.raises(ValidationError):
         AnimationFrame(timestamp_s=0.0, blendshapes={"JawOpen": 2.0}, emotions={}, body_pose=None)
+    with pytest.raises(ValidationError):
+        AnimationFrame(timestamp_s=0.0, blendshapes={"JawOpen": -0.1}, emotions={}, body_pose=None)
+
+def test_frame_rejects_negative_timestamp():
+    with pytest.raises(ValidationError):
+        AnimationFrame(timestamp_s=-0.001, blendshapes={}, emotions={}, body_pose=None)

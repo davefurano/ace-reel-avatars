@@ -25,20 +25,29 @@ _EMOTION_SET = frozenset(EMOTIONS)
 
 class JointRotation(BaseModel):
     """One skeletal joint as a quaternion (body pose; None until the dance module fills it)."""
+    model_config = ConfigDict(extra="forbid")
     name: str
     x: float; y: float; z: float; w: float
 
 
 class BodyPose(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     joints: list[JointRotation]
 
 
 class AnimationFrame(BaseModel):
     model_config = ConfigDict(extra="forbid")
     timestamp_s: float
-    blendshapes: dict[str, float]
-    emotions: dict[str, float]
+    blendshapes: dict[str, float]  # sparse by design: A2F streams only active ARKit shapes
+    emotions: dict[str, float]     # sparse by design: omitted channels are treated as 0.0
     body_pose: BodyPose | None = None
+
+    @field_validator("timestamp_s")
+    @classmethod
+    def _check_timestamp(cls, v: float) -> float:
+        if v < 0.0:
+            raise ValueError(f"timestamp_s={v} must be >= 0")
+        return v
 
     @field_validator("blendshapes")
     @classmethod
