@@ -1,5 +1,11 @@
+import pytest
 from ace_reel.motion.beat import BeatResult
 from ace_reel.motion.planner import plan_dance
+
+
+def test_raises_on_empty_clips():
+    with pytest.raises(ValueError):
+        plan_dance(BeatResult(120, [0.0, 0.5, 1.0]), clips=[], beats_per_bar=4)
 
 
 def test_plans_one_clip_cue_per_bar():

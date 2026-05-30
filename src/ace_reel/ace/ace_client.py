@@ -36,6 +36,7 @@ class A2FClient(AceClient):
             yield AnimationFrame(
                 timestamp_s=raw.timecode_s,
                 blendshapes=to_arkit_dict(raw.names, raw.weights),
+                # transport must only emit keys in frame.EMOTIONS; unknown keys raise in AnimationFrame
                 emotions={k: min(1.0, max(0.0, v)) for k, v in raw.emotions.items()},
                 body_pose=None,
             )
@@ -52,9 +53,14 @@ class NvcfA2FTransport:
     """
     def __init__(self, endpoint: str | None = None, api_key: str | None = None,
                  function_id: str | None = None):
-        self._endpoint = endpoint or os.environ["A2F_GRPC_ENDPOINT"]
-        self._api_key = api_key or os.environ["NVIDIA_API_KEY"]
-        self._function_id = function_id or os.environ["A2F_FUNCTION_ID"]
+        def _require(value: str | None, var: str) -> str:
+            resolved = value or os.environ.get(var)
+            if not resolved:
+                raise ValueError(f"{var} is required (set it in the environment or pass it explicitly)")
+            return resolved
+        self._endpoint = _require(endpoint, "A2F_GRPC_ENDPOINT")
+        self._api_key = _require(api_key, "NVIDIA_API_KEY")
+        self._function_id = _require(function_id, "A2F_FUNCTION_ID")
 
     def process(self, pcm: bytes, emotions: dict[str, float]) -> Iterator[A2FRawFrame]:
         # Implemented + verified against the pinned nvidia-ace proto in the key-gated step.
