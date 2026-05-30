@@ -1,0 +1,32 @@
+[project]
+name = "ace-reel-avatars"
+version = "0.1.0"
+description = "NVIDIA ACE x Unreal singing/dancing avatar pipeline — template spine"
+requires-python = ">=3.11"
+dependencies = [
+  "pydantic>=2.6",
+  "grpcio>=1.60",
+  # nvidia-ace>=1.2,  # TODO: re-pin in Task 4 (fails to install in this environment)
+  "librosa>=0.10",
+  "numpy>=1.26",
+  "supabase>=2.4",
+  "click>=8.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "soundfile>=0.12"]
+
+[project.scripts]
+perform = "ace_reel.cli:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+markers = ["live: hits a real external service; requires creds (deselect with -m 'not live')"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ace_reel"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
