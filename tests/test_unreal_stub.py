@@ -12,3 +12,10 @@ def test_open_raises_clear_unsupported_error():
     with pytest.raises(NotImplementedError) as e:
         t.open("Avatar_Claire", b"\x00\x00")
     assert "Windows" in str(e.value) and "setup-reel-engine" in str(e.value)
+
+
+def test_push_raises_until_implemented():
+    from ace_reel.contracts.frame import AnimationFrame
+    t = UnrealRenderTarget()
+    with pytest.raises(NotImplementedError):
+        t.push(AnimationFrame(timestamp_s=0.0, blendshapes={}, emotions={}, body_pose=None))

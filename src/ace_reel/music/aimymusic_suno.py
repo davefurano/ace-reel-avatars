@@ -19,7 +19,10 @@ class SupabaseGateway:
 
     def sign_url(self, path: str) -> str:
         signed = self._sb.storage.from_(self._bucket).create_signed_url(path, 3600)
-        return signed["signedURL"]
+        url = signed.get("signedURL") or signed.get("signedUrl")  # storage3 key has varied by version
+        if not url:
+            raise RuntimeError(f"no signed URL returned for {path!r}: {signed!r}")
+        return url
 
     def download(self, url: str) -> bytes:
         with urllib.request.urlopen(url) as r:
