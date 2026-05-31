@@ -1,5 +1,10 @@
 # ace-reel-avatars
 
+[![CI](https://github.com/davefurano/ace-reel-avatars/actions/workflows/ci.yml/badge.svg)](https://github.com/davefurano/ace-reel-avatars/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+[![NVIDIA Audio2Face-3D](https://img.shields.io/badge/NVIDIA-Audio2Face--3D-76b900.svg)](https://build.nvidia.com/nvidia/audio2face-3d)
+[![Unreal Engine 5](https://img.shields.io/badge/Unreal%20Engine-5.6-313131.svg)](https://www.unrealengine.com/)
+
 Engine-agnostic template spine for an NVIDIA ACE x Unreal Engine 5 singing/dancing avatar pipeline, fed by the AImyMusic Suno library.
 
 ## Quickstart
@@ -10,7 +15,7 @@ pip install -e ".[dev]"
 python -m pytest -m "not live" -q
 ```
 
-Expected output: `42 passed` (single-avatar spine + the Avatar House Band layer).
+Expected output: `45 passed` (single-avatar spine + the Avatar House Band layer).
 
 Run a track through the null engine (Mac-runnable, no GPU, no Unreal):
 
@@ -31,6 +36,30 @@ Play a track through a fixed multi-avatar band (lead sings, instrumentalists mov
 
 `null` runs on the Mac (records the performance); `unreal` needs the Windows/RTX box.
 Design: `docs/specs/2026-05-30-avatar-house-band-design.md`.
+
+Two rosters ship in `bands/`: `house.json` (5-piece) and `demo_trio.json` (3-piece). Add your own
+by copying the format — one `vocals` member plus instrumentalists with motion `clips`.
+
+#### Demo (no credentials, no GPU, no Unreal)
+
+`examples/demo_band.py` runs the Demo Trio against a self-generated 120 BPM click track — real beat
+detection + arranger, a stand-in vocal stream, rendered to the Mac-side null target:
+
+```bash
+python examples/demo_band.py
+```
+
+```text
+Demo Trio: 3 members (vocalist Avatar_Claire + 2 instrumentalists)
+  vocal frames streamed : 30
+  guitar Avatar_Mark    ->  4 cues (clips: strum_down, strum_up)
+  drums  Avatar_Beat    -> 14 cues (clips: kick, snare)
+  total instrument cues : 18
+```
+
+The drummer fires on every beat, the guitarist once per bar — both timed to the detected tempo. Swap
+in `bands/house.json` (or your own roster), wire real Suno audio via `MusicSource`, and point
+`--engine unreal` at the RTX box to see it rendered.
 
 ## The template story
 
@@ -107,7 +136,7 @@ RENDER_ENGINE=null
 ## Tests
 
 ```bash
-# All non-live tests (42 tests, no external services needed):
+# All non-live tests (45 tests, no external services needed):
 python -m pytest -m "not live" -q
 
 # Live A2F test (needs NVIDIA_API_KEY + tests/data/sample_vocal.wav):

@@ -1,0 +1,8 @@
+{
+  "name": "Demo Trio",
+  "members": [
+    {"avatar": "Avatar_Claire", "role": "vocals"},
+    {"avatar": "Avatar_Mark",   "role": "guitar", "clips": ["strum_down", "strum_up"]},
+    {"avatar": "Avatar_Beat",   "role": "drums",  "clips": ["kick", "snare"]}
+  ]
+}
