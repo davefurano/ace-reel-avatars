@@ -3,6 +3,7 @@
 [![CI](https://github.com/davefurano/ace-reel-avatars/actions/workflows/ci.yml/badge.svg)](https://github.com/davefurano/ace-reel-avatars/actions/workflows/ci.yml)
 [![Demo](https://github.com/davefurano/ace-reel-avatars/actions/workflows/demo.yml/badge.svg)](https://github.com/davefurano/ace-reel-avatars/actions/workflows/demo.yml)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![NVIDIA Audio2Face-3D](https://img.shields.io/badge/NVIDIA-Audio2Face--3D-76b900.svg)](https://build.nvidia.com/nvidia/audio2face-3d)
 [![Unreal Engine 5](https://img.shields.io/badge/Unreal%20Engine-5.6-313131.svg)](https://www.unrealengine.com/)
 

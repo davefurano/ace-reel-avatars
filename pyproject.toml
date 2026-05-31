@@ -3,6 +3,8 @@ name = "ace-reel-avatars"
 version = "0.1.0"
 description = "NVIDIA ACE x Unreal singing/dancing avatar pipeline — template spine"
 requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
 dependencies = [
   "pydantic>=2.6",
   "grpcio>=1.60",
