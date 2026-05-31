@@ -29,6 +29,24 @@ def test_read_audio_downloads_signed_url():
     assert src.read_audio(src.get_track("abc")) == b"ID3audio"
 
 
+class CdnGateway:
+    """A song whose audio_path is already a full CDN URL (must NOT be signed)."""
+    def fetch_song(self, track_id):
+        return {"id": track_id, "title": "Heart of Gold", "duration_seconds": 100,
+                "audio_path": "https://cdn1.suno.ai/abc.mp3"}
+    def sign_url(self, path):
+        raise AssertionError("sign_url must not be called for a full URL audio_path")
+    def download(self, url):
+        return b"mp3bytes"
+
+
+def test_get_track_passes_through_full_cdn_url():
+    src = AImyMusicSunoSource(gateway=CdnGateway())
+    t = src.get_track("abc")
+    assert t.audio_url == "https://cdn1.suno.ai/abc.mp3"   # used as-is, never signed
+    assert src.read_audio(t) == b"mp3bytes"
+
+
 @pytest.mark.live
 def test_live_fetches_real_song():
     if not os.getenv("SUPABASE_SERVICE_KEY"):

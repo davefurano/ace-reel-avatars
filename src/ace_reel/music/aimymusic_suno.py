@@ -41,9 +41,13 @@ class AImyMusicSunoSource(MusicSource):
 
     def get_track(self, track_id: str) -> Track:
         row = self._gw.fetch_song(track_id)
+        path = row["audio_path"]
+        # Some songs store a full CDN URL (e.g. https://cdn1.suno.ai/<id>.mp3); others store a
+        # bucket-relative path that must be signed. Pass URLs through; sign the rest.
+        audio_url = path if path.startswith(("http://", "https://")) else self._gw.sign_url(path)
         return Track(id=row["id"], title=row["title"],
                      duration_s=int(row["duration_seconds"] or 0),
-                     audio_url=self._gw.sign_url(row["audio_path"]), bpm=None)
+                     audio_url=audio_url, bpm=None)
 
     def read_audio(self, track: Track) -> bytes:
         return self._gw.download(track.audio_url)
