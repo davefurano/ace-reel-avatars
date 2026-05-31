@@ -16,13 +16,21 @@ from ace_reel.contracts.interfaces import RenderTarget
 from ace_reel.contracts.frame import AnimationFrame
 
 
+_UNSUPPORTED = (
+    "UnrealRenderTarget requires Windows + NVIDIA RTX + UE 5.6 + ACE plugin 2.5. "
+    "See docs/setup-reel-engine.md. Use --engine null on this Mac."
+)
+
+
 class UnrealRenderTarget(RenderTarget):
+    def preflight(self) -> None:
+        # Reject on the wrong platform before any clients/audio are built.
+        if sys.platform != "win32":
+            raise NotImplementedError(_UNSUPPORTED)
+
     def open(self, avatar_asset: str, audio_pcm_16k_mono: bytes) -> None:
         if sys.platform != "win32":
-            raise NotImplementedError(
-                "UnrealRenderTarget requires Windows + NVIDIA RTX + UE 5.6 + ACE plugin 2.5. "
-                "See docs/setup-reel-engine.md. Use --engine null on this Mac."
-            )
+            raise NotImplementedError(_UNSUPPORTED)
         raise NotImplementedError("In-engine bridge not yet implemented; see docs/setup-reel-engine.md")
 
     def push(self, frame: AnimationFrame) -> None:

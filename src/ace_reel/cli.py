@@ -19,13 +19,17 @@ def _render(engine: str):
 @click.command()
 @click.option("--track", required=True, help="Suno songs.id")
 @click.option("--avatar", required=True, help="Avatar/MetaHuman asset name")
-@click.option("--engine", type=click.Choice(["null", "unreal"]), default="null")
+@click.option("--engine", type=click.Choice(["null", "unreal"]), envvar="RENDER_ENGINE",
+              default="null", help="render target (or set RENDER_ENGINE)")
 def main(track: str, avatar: str, engine: str):
     target = _render(engine)
     try:
+        target.preflight()  # fail fast (e.g. unreal on a Mac) before building clients
         Orchestrator(build_music_source(), build_ace_client(), target).perform(track, avatar)
     except NotImplementedError as e:
         raise click.ClickException(str(e)) from None
+    except (KeyError, ValueError) as e:
+        raise click.ClickException(f"missing/invalid configuration: {e}") from None
     n = len(target.received) if isinstance(target, NullRenderTarget) else "?"
     click.echo(f"performed track {track} on {avatar} [{engine}] -> {n} frames")
 

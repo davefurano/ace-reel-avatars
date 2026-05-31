@@ -42,6 +42,10 @@ class RenderTarget(ABC):
     @abstractmethod
     def close(self) -> None: ...
 
+    def preflight(self) -> None:
+        """Optional early check (platform/deps/config) before any audio is processed.
+        Concrete targets raise here to fail fast; default is a no-op."""
+
     def run(self, avatar_asset: str, audio: bytes, frames: Iterable[AnimationFrame]) -> None:
         self.open(avatar_asset, audio)
         try:
