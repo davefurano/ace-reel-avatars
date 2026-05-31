@@ -1,4 +1,4 @@
-name: CI
+name: Demo
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  demo:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -16,10 +16,10 @@ jobs:
           python-version: "3.11"
 
       - name: Install system audio libs
-        run: sudo apt-get update && sudo apt-get install -y libsndfile1 ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y libsndfile1
 
       - name: Install package
         run: pip install -e ".[dev]"
 
-      - name: Run non-live tests
-        run: python -m pytest -m "not live" -q
+      - name: Run the demo band example
+        run: python examples/demo_band.py
