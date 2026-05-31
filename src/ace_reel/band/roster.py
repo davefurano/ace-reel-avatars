@@ -23,7 +23,7 @@ class Member:
 @dataclass(frozen=True)
 class Band:
     name: str
-    members: tuple[Member, ...] = ()      # tuple matches frozen intent and keeps Band hashable
+    members: tuple[Member, ...] = ()      # tuple matches frozen intent; load_band builds it as a tuple
 
     @property
     def vocalist(self) -> Member:
