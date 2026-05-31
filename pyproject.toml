@@ -18,6 +18,7 @@ dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "soundfile>=0.12"]
 
 [project.scripts]
 perform = "ace_reel.cli:main"
+band-perform = "ace_reel.cli:band_perform"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

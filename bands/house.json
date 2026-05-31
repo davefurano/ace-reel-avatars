@@ -1,0 +1,10 @@
+{
+  "name": "House Band",
+  "members": [
+    {"avatar": "Avatar_Claire", "role": "vocals"},
+    {"avatar": "Avatar_Mark",   "role": "guitar", "clips": ["strum_down", "strum_up"]},
+    {"avatar": "Avatar_James",  "role": "bass",   "clips": ["bass_pluck"]},
+    {"avatar": "Avatar_Beat",   "role": "drums",  "clips": ["kick", "snare", "hihat"]},
+    {"avatar": "Avatar_Rhodes", "role": "keys",   "clips": ["keys_comp"]}
+  ]
+}
