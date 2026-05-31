@@ -10,7 +10,7 @@ pip install -e ".[dev]"
 python -m pytest -m "not live" -q
 ```
 
-Expected output: `24 passed`.
+Expected output: `42 passed` (single-avatar spine + the Avatar House Band layer).
 
 Run a track through the null engine (Mac-runnable, no GPU, no Unreal):
 
@@ -107,7 +107,7 @@ RENDER_ENGINE=null
 ## Tests
 
 ```bash
-# All non-live tests (24 tests, no external services needed):
+# All non-live tests (42 tests, no external services needed):
 python -m pytest -m "not live" -q
 
 # Live A2F test (needs NVIDIA_API_KEY + tests/data/sample_vocal.wav):

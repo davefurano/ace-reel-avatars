@@ -94,7 +94,7 @@ src/ace_reel/
   music/
     aimymusic_suno.py AImyMusicSunoSource over Supabase xltunldffphrlqstujyg
   orchestrator.py     Orchestrator.perform() + to_pcm_16k_mono_bytes()
-  cli.py              `perform` click command; _render() factory
+  cli.py              `perform` + `band-perform` commands; _render()/_band_render() factories
 ```
 
 ## AnimationFrame — the spine

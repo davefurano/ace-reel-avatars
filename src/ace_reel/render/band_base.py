@@ -20,7 +20,8 @@ class BandRenderTarget(ABC):
         """Optional early check (platform/deps) before any audio is processed; default no-op."""
 
     def run(self, perf: BandPerformance) -> None:
-        self.preflight()
+        # preflight() is the caller's responsibility (the CLI runs it first), matching the
+        # single-avatar Orchestrator/RenderTarget split. open() still guards platform regardless.
         members = [perf.vocalist, *perf.instrument_arrangement.keys()]
         try:
             self.open(members, perf.audio_pcm, perf.instrument_arrangement)
