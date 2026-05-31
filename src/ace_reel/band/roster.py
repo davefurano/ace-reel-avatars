@@ -1,7 +1,7 @@
 """House-band roster: roles, members, and the band that performs a track."""
 from __future__ import annotations
 import json
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 
 
@@ -23,11 +23,14 @@ class Member:
 @dataclass(frozen=True)
 class Band:
     name: str
-    members: list[Member] = field(default_factory=list)
+    members: tuple[Member, ...] = ()      # tuple matches frozen intent and keeps Band hashable
 
     @property
     def vocalist(self) -> Member:
-        return next(m for m in self.members if m.role is Role.VOCALS)
+        v = next((m for m in self.members if m.role is Role.VOCALS), None)
+        if v is None:
+            raise ValueError("band has no vocalist")
+        return v
 
     @property
     def instrumentalists(self) -> list[Member]:
@@ -52,4 +55,4 @@ def load_band(path: str) -> Band:
     vocalists = [m for m in members if m.role is Role.VOCALS]
     if len(vocalists) != 1:
         raise ValueError(f"band must have exactly one vocalist, found {len(vocalists)}")
-    return Band(name=data.get("name", "Band"), members=members)
+    return Band(name=data.get("name", "Band"), members=tuple(members))
