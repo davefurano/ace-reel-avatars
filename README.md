@@ -118,6 +118,7 @@ The Mac is the orchestration terminal. It runs Python, talks gRPC to the hosted 
 - `docs/setup-nvidia-ace.md` — get an API key, hosted vs self-hosted A2F, `nvidia-ace` package, running live tests
 - `docs/setup-reel-engine.md` — UE 5.6 + ACE plugin 2.5 + MetaHuman + IK retarget + Movie Render Queue (Windows/RTX)
 - `docs/add-a-render-target.md` — add a new render backend (the template extension payoff)
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — dev setup, TDD + adapter-boundary rules, how to extend the template
 
 ## Environment variables
 
