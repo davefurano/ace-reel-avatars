@@ -107,3 +107,12 @@ Every adapter speaks `AnimationFrame` and nothing else crosses the boundary:
 - `body_pose`: `BodyPose | None` — skeletal joint quaternions; `None` in v1 (dance comes from motion clips, not from this field)
 
 Pydantic v2 enforces all constraints at construction time. Unknown keys and out-of-range weights raise `ValidationError`.
+
+## Band layer (Avatar House Band)
+
+`src/ace_reel/band/` composes the spine into a multi-avatar performance: `roster` (Band/Member),
+`arranger` (beats -> per-instrument ClipCue timelines, reusing `plan_dance`), `performance`
+(BandPerformance), `orchestrator` (BandOrchestrator). The vocalist streams A2F face frames; each
+instrumentalist gets a static beat-synced cue timeline. `render/band_base.py` (NullBandRenderTarget
++ Unreal stub) is the multi-avatar analogue of the single-avatar RenderTarget. Full design:
+`docs/specs/2026-05-30-avatar-house-band-design.md`.

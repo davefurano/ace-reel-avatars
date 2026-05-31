@@ -22,6 +22,16 @@ perform --track <songs.id> --avatar <avatar-name> --engine null
 
 `songs.id` is a row ID from the Supabase `public.songs` table (project `xltunldffphrlqstujyg`). The null engine records all frames in memory and prints the frame count. It does not require a GPU or a running UE5 instance.
 
+### Band mode (Avatar House Band)
+
+Play a track through a fixed multi-avatar band (lead sings, instrumentalists move on-beat):
+
+    perform        --track <id> --avatar <name> --engine null            # single avatar
+    band-perform   --track <id> --band bands/house.json --engine null    # full band
+
+`null` runs on the Mac (records the performance); `unreal` needs the Windows/RTX box.
+Design: `docs/specs/2026-05-30-avatar-house-band-design.md`.
+
 ## The template story
 
 One command. One config. Swap any layer without rewriting the others.
