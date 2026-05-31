@@ -22,7 +22,10 @@ def _render(engine: str):
 @click.option("--engine", type=click.Choice(["null", "unreal"]), default="null")
 def main(track: str, avatar: str, engine: str):
     target = _render(engine)
-    Orchestrator(build_music_source(), build_ace_client(), target).perform(track, avatar)
+    try:
+        Orchestrator(build_music_source(), build_ace_client(), target).perform(track, avatar)
+    except NotImplementedError as e:
+        raise click.ClickException(str(e)) from None
     n = len(target.received) if isinstance(target, NullRenderTarget) else "?"
     click.echo(f"performed track {track} on {avatar} [{engine}] -> {n} frames")
 
