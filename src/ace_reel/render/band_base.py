@@ -22,8 +22,8 @@ class BandRenderTarget(ABC):
     def run(self, perf: BandPerformance) -> None:
         self.preflight()
         members = [perf.vocalist, *perf.instrument_arrangement.keys()]
-        self.open(members, perf.audio_pcm, perf.instrument_arrangement)
         try:
+            self.open(members, perf.audio_pcm, perf.instrument_arrangement)
             for frame in perf.vocal_frames:
                 self.push_vocal_frame(frame)
         finally:

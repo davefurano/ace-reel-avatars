@@ -21,6 +21,7 @@ def test_band_perform_wires_music_beats_ace_into_band_render(monkeypatch):
 
     members, audio_len, arrangement = target.opened_with
     assert {m.avatar for m in members} == {"Claire", "Mark", "Beat"}
+    assert members[0].avatar == "Claire"   # vocalist always first in the scene
     assert audio_len == len(b"PCM16K")
     assert [f.timestamp_s for f in target.vocal_received] == [0.0, 0.033]
     assert {m.avatar for m in arrangement} == {"Mark", "Beat"}
